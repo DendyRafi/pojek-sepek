@@ -62,7 +62,7 @@
                                 </span>
                             </span>
                             <span>
-                                Read the
+                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam velit, veniam sint id minus incidunt ullam placeat voluptatem? Enim quis id, optio repudiandae rerum accusantium cum obcaecati facilis dolores autem!
                                 <a href="https://laravel.com/docs" target="_blank" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-[#f53003] dark:text-[#FF4433] ml-1">
                                     <span>Documentation</span>
                                     <svg
