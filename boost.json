@@ -3,7 +3,8 @@
         "codex",
         "copilot",
         "claude_code",
-        "gemini"
+        "gemini",
+        "amp"
     ],
     "cloud": false,
     "guidelines": true,
