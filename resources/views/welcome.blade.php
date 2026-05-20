@@ -731,16 +731,23 @@
     </footer>
 
     <script>
-        const daftarKriteria = [
-            { id: 1, name: 'Harga (Diamond)', isHarga: true },
-            { id: 2, name: 'Kategori Skin', isRarity: true },
-            { id: 3, name: 'Model Skin' },
-            { id: 4, name: 'Portrait Skin' },
-            { id: 5, name: 'Animasi Entrance' },
-            { id: 6, name: 'In-Game Effect' },
-            { id: 7, name: 'Tingkat Preferensi Hero', isPreferensi: true },
-            { id: 8, name: 'Status Ketersediaan Skin', isKetersediaan: true }
-        ];
+        const daftarKriteria = @json(\App\Libraries\Promethee::skinCriteria()).map((criteria) => ({
+            id: criteria.id,
+            name: criteria.name,
+            isHarga: criteria.id === 1,
+            isRarity: criteria.id === 2,
+            isPreferensi: criteria.id === 7,
+            isKetersediaan: criteria.id === 8,
+        }));
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/\"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
 
         let urutanSkin = 0;
         let cardCount = 0;
@@ -937,7 +944,7 @@
                 tr.innerHTML = `
                     <td class="${isRank1 ? 'td-rank-1' : 'td-rank'}">${rank}</td>
                     <td class="${isRank1 ? 'td-name-1' : 'td-name'}">
-                        ${item.name}
+                        ${escapeHtml(item.name)}
                         ${isRank1 ? '<span class="trophy-badge">🏆 REKOMENDASI</span>' : ''}
                     </td>
                     <td class="td-flow">${item.leaving_flow.toFixed(4)}</td>
