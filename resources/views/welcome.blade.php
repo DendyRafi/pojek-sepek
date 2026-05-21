@@ -16,12 +16,16 @@
             <div class="logo-dot"></div>
             <span class="logo-skin">SKIN</span><span class="logo-decide">DECIDE</span>
         </div>
-        <div class="header-actions">
-            <a href="/kriteria" class="header-link">
-                Pengaturan Kriteria
-            </a>
-            <div class="header-badge">Promethee Team</div>
-        </div>
+      <div class="header-actions">
+    <a href="/custom-background" class="header-link">
+        Custom Background
+    </a>
+    
+    <a href="/kriteria" class="header-link">
+        Pengaturan Kriteria
+    </a>
+    <div class="header-badge">Promethee Team</div>
+</div>
     </header>
 
     <main>
@@ -82,5 +86,8 @@
         <div class="footer-brand"><span>SKIN</span>DECIDE</div>
         <div class="footer-copy">&copy; 2026 Promethee Team</div>
     </footer>
+
+    <input type="file" id="input-custom-bg" accept="image/*" style="display: none;">
+
 </body>
 </html>

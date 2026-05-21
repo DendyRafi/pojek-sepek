@@ -1,11 +1,60 @@
 import './bootstrap';
 
 window.addEventListener('DOMContentLoaded', () => {
+    
+    // ==========================================
+    // 1. LOGIKA UTAMA CUSTOM BACKGROUND (DIATAS AGAR ANTI-MOGOK)
+    // ==========================================
+    const btnTriggerBg = document.getElementById('btn-trigger-bg');
+    const inputCustomBg = document.getElementById('input-custom-bg');
+
+    // Ambil dan pasang background jika ada di local storage browser
+    const savedBg = localStorage.getItem('skin_decide_custom_bg');
+    if (savedBg) {
+        terapkanBackground(savedBg);
+    }
+
+    if (btnTriggerBg) {
+        btnTriggerBg.addEventListener('click', (e) => {
+            e.preventDefault(); 
+            e.stopPropagation();
+            
+            // Mengambil element langsung saat diklik untuk memastikan DOM siap
+            const inputLokal = document.getElementById('input-custom-bg');
+            if (inputLokal) {
+                inputLokal.click();
+            }
+        });
+    }
+
+    if (inputCustomBg) {
+        inputCustomBg.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Image = e.target.result;
+                    localStorage.setItem('skin_decide_custom_bg', base64Image);
+                    terapkanBackground(base64Image);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    function terapkanBackground(urlGambar) {
+        document.body.style.backgroundImage = `linear-gradient(to bottom, rgba(9, 13, 18, 0.85), rgba(9, 13, 18, 0.95)), url('${urlGambar}')`;
+    }
+
+    // ==========================================
+    // 2. LOGIKA HALAMAN UTAMA & PERHITUNGAN SPK
+    // ==========================================
     const form = document.getElementById('spkForm');
     const addButton = document.getElementById('btn-add-skin');
     const container = document.getElementById('container-alternatif');
     const sectionHasil = document.getElementById('section-hasil');
 
+    // Jika element SPK di bawah ini tidak lengkap, abaikan sisa kode SPK tanpa merusak background
     if (!form || !addButton || !container || !sectionHasil) {
         return;
     }
@@ -41,7 +90,6 @@ window.addEventListener('DOMContentLoaded', () => {
             }));
         } catch (error) {
             console.error(error);
-
             return [];
         }
     }
@@ -147,28 +195,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function handleContainerClick(event) {
         const removeButton = event.target.closest('[data-action="remove-skin"]');
-
-        if (!removeButton) {
-            return;
-        }
-
+        if (!removeButton) return;
         hapusBarisSkin(removeButton.dataset.skinId);
     }
 
     function hapusBarisSkin(id) {
         const total = document.querySelectorAll('.class-skin-item').length;
-
         if (total <= 2) {
             shakeAlert('Minimal 2 skin untuk dibandingkan!');
-
             return;
         }
 
         const element = document.getElementById(`skin-row-${id}`);
-
-        if (!element) {
-            return;
-        }
+        if (!element) return;
 
         element.classList.add('is-removing');
         window.setTimeout(() => element.remove(), 280);
@@ -176,10 +215,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function shakeAlert(message) {
         const existing = document.getElementById('shake-toast');
-
-        if (existing) {
-            existing.remove();
-        }
+        if (existing) existing.remove();
 
         const toast = document.createElement('div');
         toast.id = 'shake-toast';
@@ -197,9 +233,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const spinner = document.getElementById('spinner');
         const calcIcon = document.getElementById('calc-icon');
 
-        if (!btn || !spinner || !calcIcon) {
-            return;
-        }
+        if (!btn || !spinner || !calcIcon) return;
 
         btn.classList.add('loading');
         spinner.style.display = 'block';
@@ -245,16 +279,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function tampilkanTabelHasil(data) {
         const tbody = document.getElementById('tabel-hasil');
-
-        if (!tbody) {
-            return;
-        }
+        if (!tbody) return;
 
         tbody.innerHTML = '';
-
-        if (data.length === 0) {
-            return;
-        }
+        if (data.length === 0) return;
 
         const maxNetFlow = data[0].net_flow;
         const isTie = data.filter((item) => Math.abs(item.net_flow - maxNetFlow) < 0.0001).length > 1;
@@ -266,7 +294,6 @@ window.addEventListener('DOMContentLoaded', () => {
             const formattedScore = `${item.net_flow >= 0 ? '+' : ''}${item.net_flow.toFixed(4)}`;
 
             let badgeHtml = '';
-
             if (isTop) {
                 badgeHtml = isTie
                     ? '<span class="tie-badge">🤝 SERI (REKOMENDASI)</span>'

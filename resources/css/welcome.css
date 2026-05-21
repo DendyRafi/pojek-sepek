@@ -36,12 +36,14 @@ body {
     position: relative;
     overflow-x: hidden;
 
-    /* ─── ADDED: BACKGROUND HERO IMAGE CONFIGURATION ─── */
     background-image: linear-gradient(to bottom, rgba(9, 13, 18, 0.85), rgba(9, 13, 18, 0.95)), url('/images/hero-bg.jpg');
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    
+    /* Efek fade smooth saat background berganti */
+    transition: background-image 0.5s ease-in-out; 
 }
 
 /* ─── BACKGROUND GRID ─── */

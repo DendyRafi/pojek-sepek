@@ -14,3 +14,6 @@ Route::get('/kriteria', [CriteriaController::class, 'index'])->name('kriteria.in
 Route::post('/kriteria', [CriteriaController::class, 'store'])->name('kriteria.store');
 Route::put('/kriteria/{criteria}', [CriteriaController::class, 'update'])->name('kriteria.update');
 Route::delete('/kriteria/{criteria}', [CriteriaController::class, 'destroy'])->name('kriteria.destroy');
+Route::get('/custom-background', function () {
+    return view('custom-background');
+});

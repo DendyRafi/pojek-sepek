@@ -1,6 +1,18 @@
 import './bootstrap';
 
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // =========================================================================
+    // 1. SINKRONISASI CUSTOM BACKGROUND DARI LOCALSTORAGE
+    // =========================================================================
+    const savedBg = localStorage.getItem('skin_decide_custom_bg');
+    if (savedBg) {
+        document.body.style.backgroundImage = `linear-gradient(to bottom, rgba(9, 13, 18, 0.85), rgba(9, 13, 18, 0.95)), url('${savedBg}')`;
+    }
+
+    // =========================================================================
+    // 2. LOGIKA BAWAAN HALAMAN PENGATURAN KRITERIA
+    // =========================================================================
     const deleteForm = document.getElementById('delete-form');
 
     if (!deleteForm) {
