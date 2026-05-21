@@ -113,8 +113,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 criteriaHTML += `
                         <div class="criteria-item">
                             <label>${kriteria.name}</label>
-                            <input type="number" required name="kriteria_${kriteria.id}" placeholder="Misal: 1089"
-                                class="criteria-input"${valueAttribute(savedScore)}>
+                            <input type="number" min="0" required name="kriteria_${kriteria.id}" placeholder="Misal: 1089"
+                                class="criteria-input"${valueAttribute(savedScore)} step="any">
                             <p class="hint-text">Gacha: estimasi pity (Zodiac ~1500 · Collector ~4000 · Aspirants ~5000 · Legend ~9000)</p>
                         </div>`;
             } else if (kriteria.isRarity) {

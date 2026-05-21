@@ -19,7 +19,7 @@
         </div>
         <div class="header-actions">
             <a href="/kriteria" class="header-link">
-                Pengaturan Kriteria
+                Pengaturan
             </a>
             <div class="header-badge">Promethee Team</div>
         </div>
