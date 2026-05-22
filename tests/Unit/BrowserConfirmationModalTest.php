@@ -42,6 +42,19 @@ class BrowserConfirmationModalTest extends TestCase
         $this->assertStringContainsString("@import './confirm-modal.css';", $settingsStyles);
     }
 
+    public function test_skin_card_border_light_animations_are_defined(): void
+    {
+        $welcomeStyles = file_get_contents($this->sourcePath('resources/css/welcome.css'));
+
+        $this->assertIsString($welcomeStyles);
+        $this->assertStringContainsString('.skin-card.class-skin-item::before', $welcomeStyles);
+        $this->assertStringContainsString('.skin-card.class-skin-item::after', $welcomeStyles);
+        $this->assertStringContainsString('animation: borderLightTop', $welcomeStyles);
+        $this->assertStringContainsString('animation: borderLightBottom', $welcomeStyles);
+        $this->assertStringContainsString('@keyframes borderLightTop', $welcomeStyles);
+        $this->assertStringContainsString('@keyframes borderLightBottom', $welcomeStyles);
+    }
+
     private function sourcePath(string $path): string
     {
         return dirname(__DIR__, 2).DIRECTORY_SEPARATOR.str_replace('/', DIRECTORY_SEPARATOR, $path);

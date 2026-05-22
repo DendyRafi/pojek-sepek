@@ -303,6 +303,63 @@ main {
     animation: cardOut 0.3s ease forwards;
 }
 
+/* ─── BORDER LIGHT ANIMATION ─── */
+.skin-card.class-skin-item::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 14px;
+    right: 14px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--neon), transparent);
+    background-size: 200% 100%;
+    animation: borderLightTop 4s linear infinite;
+    pointer-events: none;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+    z-index: 2;
+}
+
+.skin-card.class-skin-item::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 14px;
+    right: 14px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--neon), transparent);
+    background-size: 200% 100%;
+    animation: borderLightBottom 4s linear infinite;
+    pointer-events: none;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+    z-index: 2;
+}
+
+.skin-card.class-skin-item:hover::before,
+.skin-card.class-skin-item:hover::after {
+    opacity: 1;
+    filter: drop-shadow(0 0 3px var(--neon-glow));
+}
+
+@keyframes borderLightTop {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: 0% 0;
+    }
+}
+
+@keyframes borderLightBottom {
+    0% {
+        background-position: 0% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
 .skin-card-number {
     position: absolute;
     top: -12px;

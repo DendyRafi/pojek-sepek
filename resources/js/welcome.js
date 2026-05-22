@@ -3,16 +3,13 @@ import { confirmAction } from './confirm-modal';
 
 window.addEventListener('DOMContentLoaded', () => {
 
-    // ==========================================
-    // 0. GLITCH COLOR RANDOMIZER
-    // ==========================================
     const glitchPalettes = [
-        { c1: '#00ffff', s1: 'rgba(0,255,255,0.8)',   c2: '#ff0000', s2: 'rgba(255,0,0,0.8)'   },
-        { c1: '#ff0000', s1: 'rgba(255,0,0,0.8)',     c2: '#aaaaaa', s2: 'rgba(170,170,170,0.8)' },
-        { c1: '#aaaaaa', s1: 'rgba(170,170,170,0.8)', c2: '#00ffff', s2: 'rgba(0,255,255,0.8)' },
-        { c1: '#00ffff', s1: 'rgba(0,255,255,0.8)',   c2: '#ff0000', s2: 'rgba(255,0,0,0.8)'   },
-        { c1: '#ff0000', s1: 'rgba(255,0,0,0.8)',     c2: '#aaaaaa', s2: 'rgba(170,170,170,0.8)' },
-        { c1: '#aaaaaa', s1: 'rgba(170,170,170,0.8)', c2: '#00ffff', s2: 'rgba(0,255,255,0.8)' },
+        { c1: '#00ffffcc', s1: '#00ffffcc',   c2: '#ff1457cc', s2: '#ff1457cc'   },
+        { c1: '#ff1457cc', s1: '#ff1457cc',     c2: '#eeeeee', s2: '#fafafaee' },
+        { c1: '#eeeeee', s1: '#fafafaee', c2: '#00ffffcc', s2: '#00ffffcc' },
+        { c1: '#00ffffcc', s1: '#00ffffcc',   c2: '#ff1457cc', s2: '#ff1457cc'   },
+        { c1: '#ff1457cc', s1: '#ff1457cc',     c2: '#eeeeee', s2: '#fafafaee' },
+        { c1: '#eeeeee', s1: '#fafafaee', c2: '#00ffffcc', s2: '#00ffffcc' },
     ];
 
     function randomizeGlitchColors() {
