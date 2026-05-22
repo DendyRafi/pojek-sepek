@@ -904,6 +904,13 @@ select option {
     66%       { transform: skewX(0deg); }
 }
 
+/* Warna abu-abu saat glitch muncul */
+@keyframes glitch-color {
+    0%, 100% { color: inherit; }
+    2%, 4%   { color: #aaaaaa; }
+    62%, 66% { color: #aaaaaa; }
+}
+
 @keyframes glitch-clip-1 {
     0%, 100% {
         clip-path: inset(0 0 95% 0);
@@ -980,19 +987,21 @@ select option {
     }
 }
 
-/* Elemen asli */
-.page-header h1 {
+/* Elemen utama — hanya kata Terbaik */
+.page-header h1 .glitch-text {
     position: relative;
-    animation: glitch-skew 6s ease-in-out infinite;
+    display: inline-block;
+    animation: glitch-skew 6s ease-in-out infinite,
+               glitch-color 6s ease-in-out infinite;
 }
 
-/* Pseudo layer 1 — cyan/biru (glitch kiri) */
-.page-header h1::before {
+/* Pseudo layer 1 — glitch kiri */
+.page-header h1 .glitch-text::before {
     content: attr(data-text);
     position: absolute;
     inset: 0;
-    color: #82cd27;
-    text-shadow: -3px 0 rgba(0, 255, 255, 0.6);
+    color: var(--glitch-color-1, #00ffff);
+    text-shadow: -3px 0 var(--glitch-shadow-1, rgba(0, 255, 255, 0.8));
     animation: glitch-clip-1 6s ease-in-out infinite;
     pointer-events: none;
     left: 0;
@@ -1000,13 +1009,13 @@ select option {
     width: 100%;
 }
 
-/* Pseudo layer 2 — merah/magenta (glitch kanan) */
-.page-header h1::after {
+/* Pseudo layer 2 — glitch kanan */
+.page-header h1 .glitch-text::after {
     content: attr(data-text);
     position: absolute;
     inset: 0;
-    color: #82cd27;
-    text-shadow: 3px 0 rgba(255, 0, 100, 0.5);
+    color: var(--glitch-color-2, #ff0000);
+    text-shadow: 3px 0 var(--glitch-shadow-2, rgba(255, 0, 0, 0.8));
     animation: glitch-clip-2 6s ease-in-out infinite;
     pointer-events: none;
     left: 0;

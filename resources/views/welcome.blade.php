@@ -17,7 +17,7 @@
             <div class="logo-dot"></div>
             <span class="logo-skin">SKIN</span><span class="logo-decide">DECIDE</span>
         </div>
-      <div class="header-actions">
+        <div class="header-actions">
             <a href="/pengaturan" class="header-link">
                 Pengaturan
             </a>
@@ -30,7 +30,7 @@
 
             <div class="page-header">
                 <div class="label">SkinDecide - Asisten Rekomendasi Skin</div>
-                <h1>Rekomendasi <span>Skin</span> Terbaik</h1>
+                <h1>Rekomendasi <span>Skin</span> <span class="glitch-text" data-text="Terbaik">Terbaik</span></h1>
                 <p>Masukkan nama skin yang ingin dibandingkan beserta penilaian kriteria kamu <br> (Masukkan Skala 1-7, khusus Kategori masukkan skala 1-6, dan untuk Harga masukkan dalam jumlah Diamond)</p>
             </div>
 

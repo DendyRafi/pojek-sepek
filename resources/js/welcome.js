@@ -2,7 +2,31 @@ import './bootstrap';
 import { confirmAction } from './confirm-modal';
 
 window.addEventListener('DOMContentLoaded', () => {
-    
+
+    // ==========================================
+    // 0. GLITCH COLOR RANDOMIZER
+    // ==========================================
+    const glitchPalettes = [
+        { c1: '#00ffff', s1: 'rgba(0,255,255,0.8)',   c2: '#ff0000', s2: 'rgba(255,0,0,0.8)'   },
+        { c1: '#ff0000', s1: 'rgba(255,0,0,0.8)',     c2: '#aaaaaa', s2: 'rgba(170,170,170,0.8)' },
+        { c1: '#aaaaaa', s1: 'rgba(170,170,170,0.8)', c2: '#00ffff', s2: 'rgba(0,255,255,0.8)' },
+        { c1: '#00ffff', s1: 'rgba(0,255,255,0.8)',   c2: '#ff0000', s2: 'rgba(255,0,0,0.8)'   },
+        { c1: '#ff0000', s1: 'rgba(255,0,0,0.8)',     c2: '#aaaaaa', s2: 'rgba(170,170,170,0.8)' },
+        { c1: '#aaaaaa', s1: 'rgba(170,170,170,0.8)', c2: '#00ffff', s2: 'rgba(0,255,255,0.8)' },
+    ];
+
+    function randomizeGlitchColors() {
+        const palette = glitchPalettes[Math.floor(Math.random() * glitchPalettes.length)];
+        const root = document.documentElement;
+        root.style.setProperty('--glitch-color-1',  palette.c1);
+        root.style.setProperty('--glitch-shadow-1', palette.s1);
+        root.style.setProperty('--glitch-color-2',  palette.c2);
+        root.style.setProperty('--glitch-shadow-2', palette.s2);
+    }
+
+    randomizeGlitchColors();
+    setInterval(randomizeGlitchColors, 6000);
+
     // ==========================================
     // 1. LOGIKA UTAMA CUSTOM BACKGROUND (DIATAS AGAR ANTI-MOGOK)
     // ==========================================
