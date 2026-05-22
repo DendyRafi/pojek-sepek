@@ -1,3 +1,5 @@
+@import './confirm-modal.css';
+
 :root {
     --neon: #82cd27;
     --neon-dim: rgba(130, 205, 39, 0.15);

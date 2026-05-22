@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class CriteriaTest extends TestCase
+class PengaturanTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -36,8 +36,10 @@ class CriteriaTest extends TestCase
         $response->assertSee('Kriteria Tes');
         $response->assertSee('1.5');
         $response->assertSee('Reset Kriteria Semula');
+        $response->assertSee('data-confirm-reset', false);
         $response->assertDontSee('onchange="toggleParams(this', false);
         $response->assertDontSee('onclick="confirmDelete(', false);
+        $response->assertDontSee('window.confirm', false);
         $response->assertDontSee('style="display:none;"', false);
     }
 

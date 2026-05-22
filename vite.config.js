@@ -7,10 +7,11 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
-                'resources/js/app.js',
                 'resources/css/welcome.css',
-                'resources/js/welcome.js',
                 'resources/css/pengaturan.css',
+                'resources/css/confirm-modal.css',
+                'resources/js/app.js',
+                'resources/js/welcome.js',
                 'resources/js/pengaturan.js',
                 'resources/js/custom-bg-page.js'
             ],

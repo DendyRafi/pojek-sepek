@@ -67,7 +67,7 @@
                     <h2>Kontrol Admin</h2>
                     <p>Gunakan reset untuk mengembalikan daftar kriteria ke nilai awal sistem.</p>
                 </div>
-                <form action="{{ route('pengaturan.reset') }}" method="POST" onsubmit="return window.confirm('Kembalikan semua kriteria ke pengaturan awal? Kriteria tambahan/perubahan akan dihapus.');">
+                <form action="{{ route('pengaturan.reset') }}" method="POST" data-confirm-reset>
                     @csrf
                     <button type="submit" class="btn-action btn-danger p-1" style="min-width: 120px;">Reset Kriteria Semula</button>
                 </form>

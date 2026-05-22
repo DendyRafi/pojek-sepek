@@ -1,4 +1,5 @@
 import './bootstrap';
+import { confirmAction } from './confirm-modal';
 
 window.addEventListener('DOMContentLoaded', () => {
     
@@ -308,7 +309,14 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     async function clearSavedInputs() {
-        if (!window.confirm('Hapus semua input yang tersimpan di sesi browser ini?')) {
+        const confirmed = await confirmAction({
+            title: 'Hapus Input Tersimpan?',
+            message: 'Semua input skin yang tersimpan di sesi browser ini akan dihapus dan form akan dibuat ulang dari awal.',
+            confirmText: 'Ya, hapus input',
+            cancelText: 'Batal',
+        });
+
+        if (!confirmed) {
             return;
         }
 

@@ -1,4 +1,5 @@
 import './bootstrap';
+import { confirmAction } from './confirm-modal';
 
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -36,6 +37,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         toggleParams(selectElement, criteriaId);
+    });
+
+    document.querySelectorAll('[data-confirm-reset]').forEach((form) => {
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const confirmed = await confirmAction({
+                title: 'Reset Kriteria?',
+                message: 'Semua kriteria akan dikembalikan ke pengaturan awal. Kriteria tambahan dan perubahan yang sudah dibuat akan dihapus.',
+                confirmText: 'Ya, reset',
+                cancelText: 'Batal',
+            });
+
+            if (confirmed) {
+                form.submit();
+            }
+        });
     });
 
     document.querySelectorAll('[data-delete-id]').forEach((button) => {
@@ -81,8 +99,15 @@ function toggleParams(selectElement, id) {
     }
 }
 
-function confirmDelete(id, name) {
-    if (!window.confirm(`Apakah Anda yakin ingin menghapus kriteria "${name}"? Tindakan ini tidak dapat dibatalkan.`)) {
+async function confirmDelete(id, name) {
+    const confirmed = await confirmAction({
+        title: 'Hapus Kriteria?',
+        message: `Kriteria "${name}" akan dihapus permanen dan tindakan ini tidak dapat dibatalkan.`,
+        confirmText: 'Ya, hapus',
+        cancelText: 'Batal',
+    });
+
+    if (!confirmed) {
         return;
     }
 

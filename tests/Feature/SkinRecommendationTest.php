@@ -24,6 +24,8 @@ class SkinRecommendationTest extends TestCase
         $response->assertSee('SkinDecide');
         $response->assertSee('Promethee', false);
         $response->assertSee('data-criterias=', false);
+        $response->assertSee('class="glitch-text" data-glitch="Terbaik" aria-label="Terbaik">Terbaik</span>', false);
+        $response->assertDontSee('<span>Skin</span> Terbaik</span></h1>', false);
         $response->assertDontSee('onsubmit="prosesHitung(event)"', false);
         $response->assertDontSee('onclick="tambahBarisSkin()"', false);
     }
