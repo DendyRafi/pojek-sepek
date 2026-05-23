@@ -3,16 +3,13 @@ import { confirmAction } from './confirm-modal';
 
 window.addEventListener('DOMContentLoaded', () => {
 
-    // ==========================================
-    // 0. GLITCH COLOR RANDOMIZER
-    // ==========================================
     const glitchPalettes = [
-        { c1: '#00ffff', s1: 'rgba(0,255,255,0.8)',   c2: '#ff0000', s2: 'rgba(255,0,0,0.8)'   },
-        { c1: '#ff0000', s1: 'rgba(255,0,0,0.8)',     c2: '#aaaaaa', s2: 'rgba(170,170,170,0.8)' },
-        { c1: '#aaaaaa', s1: 'rgba(170,170,170,0.8)', c2: '#00ffff', s2: 'rgba(0,255,255,0.8)' },
-        { c1: '#00ffff', s1: 'rgba(0,255,255,0.8)',   c2: '#ff0000', s2: 'rgba(255,0,0,0.8)'   },
-        { c1: '#ff0000', s1: 'rgba(255,0,0,0.8)',     c2: '#aaaaaa', s2: 'rgba(170,170,170,0.8)' },
-        { c1: '#aaaaaa', s1: 'rgba(170,170,170,0.8)', c2: '#00ffff', s2: 'rgba(0,255,255,0.8)' },
+        { c1: '#00ffffcc', s1: '#00ffffcc',   c2: '#ff1457cc', s2: '#ff1457cc'   },
+        { c1: '#ff1457cc', s1: '#ff1457cc',     c2: '#eeeeee', s2: '#fafafaee' },
+        { c1: '#eeeeee', s1: '#fafafaee', c2: '#00ffffcc', s2: '#00ffffcc' },
+        { c1: '#00ffffcc', s1: '#00ffffcc',   c2: '#ff1457cc', s2: '#ff1457cc'   },
+        { c1: '#ff1457cc', s1: '#ff1457cc',     c2: '#eeeeee', s2: '#fafafaee' },
+        { c1: '#eeeeee', s1: '#fafafaee', c2: '#00ffffcc', s2: '#00ffffcc' },
     ];
 
     function randomizeGlitchColors() {
@@ -139,7 +136,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
         if (savedAlternatives.length > 0) {
             savedAlternatives.forEach((alternative) => tambahBarisSkin(alternative));
-
             return;
         }
 
@@ -168,6 +164,19 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         return ` value="${escapeHtml(value)}"`;
+    }
+
+    // =========================================================================
+    // FUNGSI UTAMA: MENGURUTKAN ULANG NOMOR KARTU DI LAYAR (ANTI ANOMALI NOMOR)
+    // =========================================================================
+    function urutkanUlangNomorSkin() {
+        const semuaKartuSkin = container.querySelectorAll('.class-skin-item');
+        semuaKartuSkin.forEach((card, index) => {
+            const labelNomor = card.querySelector('.skin-card-number');
+            if (labelNomor) {
+                labelNomor.textContent = `SKIN ${index + 1}`;
+            }
+        });
     }
 
     function tambahBarisSkin(savedAlternative = null) {
@@ -265,6 +274,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 </div>`;
 
         container.appendChild(card);
+
+        // Langsung panggil re-index setelah berhasil masuk DOM agar nomor urut rapi terus
+        urutkanUlangNomorSkin();
     }
 
     function handleContainerClick(event) {
@@ -286,6 +298,9 @@ window.addEventListener('DOMContentLoaded', () => {
         element.classList.add('is-removing');
         window.setTimeout(() => {
             element.remove();
+            
+            // Urutkan ulang nomor di layar sesaat setelah elemen dihapus
+            urutkanUlangNomorSkin();
             schedulePersistWelcomeInputs();
         }, 280);
     }

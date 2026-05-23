@@ -303,6 +303,63 @@ main {
     animation: cardOut 0.3s ease forwards;
 }
 
+/* ─── BORDER LIGHT ANIMATION ─── */
+.skin-card.class-skin-item::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 14px;
+    right: 14px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--neon), transparent);
+    background-size: 200% 100%;
+    animation: borderLightTop 4s linear infinite;
+    pointer-events: none;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+    z-index: 2;
+}
+
+.skin-card.class-skin-item::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 14px;
+    right: 14px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--neon), transparent);
+    background-size: 200% 100%;
+    animation: borderLightBottom 4s linear infinite;
+    pointer-events: none;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+    z-index: 2;
+}
+
+.skin-card.class-skin-item:hover::before,
+.skin-card.class-skin-item:hover::after {
+    opacity: 1;
+    filter: drop-shadow(0 0 3px var(--neon-glow));
+}
+
+@keyframes borderLightTop {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: 0% 0;
+    }
+}
+
+@keyframes borderLightBottom {
+    0% {
+        background-position: 0% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
 .skin-card-number {
     position: absolute;
     top: -12px;
@@ -1021,4 +1078,79 @@ select option {
     left: 0;
     top: 0;
     width: 100%;
+}
+
+/* =========================================================================
+   LOGIKA RESPONSIVITAS MOBILE (HANYA AKTIF DI LAYAR DI BAWAH 768px)
+   ========================================================================= */
+@media (max-width: 768px) {
+    
+    /* 1. Mencegah Teks Judul Utama Bertumpuk (Menyesuaikan gambar mobile Anda) */
+    .page-header h1, 
+    main h1,
+    h1 {
+        font-size: 28px !important; /* Memperkecil font agar tidak patah ekstrem */
+        line-height: 1.3 !important; /* Memberi jarak antar baris agar tidak bertumpuk */
+        letter-spacing: 1px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .page-header p,
+    main p {
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+        padding: 0 10px;
+    }
+
+    /* 2. Menata Ulang Header Navigasi Atas */
+    header {
+        flex-direction: column !important; /* Membuat logo & tombol tersusun ke bawah */
+        gap: 12px !important;
+        padding: 15px 10px !important;
+        height: auto !important;
+        text-align: center;
+    }
+
+    .header-actions {
+        width: 100% !important;
+        justify-content: center !important;
+        flex-wrap: wrap !important; /* Jika tombol terlalu banyak, otomatis turun rapi */
+        gap: 8px !important;
+    }
+
+    .header-link {
+        font-size: 11px !important;
+        padding: 6px 12px !important;
+    }
+
+    .header-badge {
+        font-size: 10px !important;
+        padding: 4px 8px !important;
+    }
+
+    /* 3. Menyesuaikan Grid Form Pilihan Kriteria Skin */
+    .criteria-grid {
+        grid-template-columns: 1fr !important; /* Di HP dipaksa 1 baris penuh per input */
+        gap: 15px !important;
+    }
+
+    .skin-card {
+        padding: 15px !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* 4. Menyesuaikan Baris Tombol Utama di Bagian Bawah */
+    .actions-row,
+    main .actions-row {
+        flex-direction: column !important; /* Tombol Hitung & Tambah tersusun vertikal */
+        width: 100% !important;
+        gap: 10px !important;
+    }
+
+    .btn-add, 
+    .btn-hitung,
+    button[type="submit"] {
+        width: 100% !important; /* Tombol melebar penuh agar mudah ditekan di HP */
+        justify-content: center !important;
+    }
 }
