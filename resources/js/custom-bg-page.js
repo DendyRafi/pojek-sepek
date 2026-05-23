@@ -7,8 +7,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const previewBox = document.getElementById('bg-preview-box');
     const messageBox = document.getElementById('custom-bg-message');
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '';
-    const uploadUrl = document.body?.dataset.customBackgroundUploadUrl ?? '/custom-background';
-    const resetUrl = document.body?.dataset.customBackgroundResetUrl ?? '/custom-background';
+    const uploadUrl = document.body?.dataset.customBackgroundUploadUrl ?? '/custom-background/upload';
+    const resetUrl = document.body?.dataset.customBackgroundResetUrl ?? '/custom-background/reset';
 
     loadCurrentBackground(document.body?.dataset.customBackgroundUrl);
 
@@ -22,26 +22,10 @@ window.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const formData = new FormData();
-            formData.append('background', file);
-
             try {
                 setBusy(true);
 
-                const response = await fetch(uploadUrl, {
-                    method: 'POST',
-                    credentials: 'same-origin',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Accept': 'application/json',
-                    },
-                    body: formData,
-                });
-                const result = await parseJsonResponse(response);
-
-                if (!response.ok) {
-                    throw new Error(result.message ?? 'Gagal menyimpan background.');
-                }
+                const result = await uploadBackground(file);
 
                 terapkanSistemBackground(result.url);
                 showMessage(result.message ?? 'Background global berhasil disimpan.', 'success');
@@ -54,13 +38,49 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    async function uploadBackground(file) {
+        let lastErrorMessage = 'Gagal menyimpan background.';
+
+        for (const endpoint of uniqueEndpoints([uploadUrl, '/custom-background'])) {
+            const formData = new FormData();
+            formData.append('background', file);
+
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                },
+                body: formData,
+            });
+            const result = await parseJsonResponse(response);
+
+            if (response.ok) {
+                return result;
+            }
+
+            lastErrorMessage = result.message ?? `Endpoint upload ${endpoint} tidak tersedia.`;
+
+            if (![404, 405].includes(response.status)) {
+                break;
+            }
+        }
+
+        throw new Error(lastErrorMessage);
+    }
+
+    function uniqueEndpoints(endpoints) {
+        return [...new Set(endpoints.filter(Boolean))];
+    }
+
     if (btnReset) {
         btnReset.addEventListener('click', async () => {
             try {
                 setBusy(true);
 
                 const response = await fetch(resetUrl, {
-                    method: 'DELETE',
+                    method: 'POST',
                     credentials: 'same-origin',
                     headers: {
                         'X-CSRF-TOKEN': csrfToken,

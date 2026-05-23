@@ -120,13 +120,14 @@ class PengaturanTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Custom <span>Background</span>', false);
-        $response->assertSee(route('custom-background.store'), false);
-        $response->assertSee(route('custom-background.destroy'), false);
+        $response->assertSee('/custom-background/upload', false);
+        $response->assertSee('/custom-background/reset', false);
+        $response->assertDontSee('http://localhost/custom-background', false);
     }
 
     public function test_admin_custom_background_upload_is_applied_to_public_visitors(): void
     {
-        $response = $this->actingAs($this->admin)->post('/custom-background', [
+        $response = $this->actingAs($this->admin)->post('/custom-background/upload', [
             'background' => UploadedFile::fake()->image('background.png', 1200, 800)->size(512),
         ]);
 
@@ -140,13 +141,23 @@ class PengaturanTest extends TestCase
         $publicResponse->assertSee('data-custom-background-url=', false);
     }
 
-    public function test_admin_can_reset_custom_background_to_default(): void
+    public function test_legacy_custom_background_upload_endpoint_is_still_accepted(): void
     {
-        $this->actingAs($this->admin)->post('/custom-background', [
+        $response = $this->actingAs($this->admin)->post('/custom-background', [
             'background' => UploadedFile::fake()->image('background.png', 1200, 800)->size(512),
         ]);
 
-        $response = $this->actingAs($this->admin)->delete('/custom-background');
+        $response->assertRedirect('/custom-background');
+        Storage::disk('public_images')->assertExists('site-background.png');
+    }
+
+    public function test_admin_can_reset_custom_background_to_default(): void
+    {
+        $this->actingAs($this->admin)->post('/custom-background/upload', [
+            'background' => UploadedFile::fake()->image('background.png', 1200, 800)->size(512),
+        ]);
+
+        $response = $this->actingAs($this->admin)->post('/custom-background/reset');
 
         $response->assertRedirect('/custom-background');
         Storage::disk('public_images')->assertMissing('site-background.png');

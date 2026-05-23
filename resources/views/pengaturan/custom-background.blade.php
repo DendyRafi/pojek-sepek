@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/welcome.css', 'resources/js/custom-bg-page.js'])
 </head>
-<body style="{{ $customBackgroundStyle }}" data-custom-background-url="{{ $customBackgroundUrl }}" data-custom-background-upload-url="{{ route('custom-background.store') }}" data-custom-background-reset-url="{{ route('custom-background.destroy') }}">
+<body style="{{ $customBackgroundStyle }}" data-custom-background-url="{{ $customBackgroundUrl }}" data-custom-background-upload-url="{{ route('custom-background.store', [], false) }}" data-custom-background-reset-url="{{ route('custom-background.destroy', [], false) }}">
 
     <header>
         <div class="logo">
@@ -56,7 +56,7 @@
                     </div>
                 </div>
 
-                <form id="custom-bg-form" action="{{ route('custom-background.store') }}" method="POST" enctype="multipart/form-data">
+                <form id="custom-bg-form" action="{{ route('custom-background.store', [], false) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="file" id="file-bg-input" name="background" accept="image/*" style="display: none;">
                 </form>
