@@ -24,10 +24,4 @@ class WelcomeInputController extends Controller
 
         return response()->json(['status' => 'cleared']);
     }
-
-    public function customBackground(): Response
-    {
-        # render the custom background view
-        return response()->view('pengaturan.custom-background');
-    }
 }

@@ -30,8 +30,12 @@ Route::middleware(['auth', 'admin'])->group(function (): void {
     Route::post('/pengaturan/reset', [PengaturanController::class, 'reset'])->name('pengaturan.reset');
     Route::put('/pengaturan/{criteria}', [PengaturanController::class, 'update'])->name('pengaturan.update');
     Route::delete('/pengaturan/{criteria}', [PengaturanController::class, 'destroy'])->name('pengaturan.destroy');
-    Route::get('/custom-background', [WelcomeInputController::class, 'customBackground'])->name('custom-background');
-
-    Route::post('/skin-inputs', [WelcomeInputController::class, 'store'])->name('welcome-inputs.store');
-    Route::delete('/skin-inputs', [WelcomeInputController::class, 'destroy'])->name('welcome-inputs.destroy');
+    Route::get('/custom-background', [PengaturanController::class, 'customBackground'])->name('custom-background');
+    Route::post('/custom-background/upload', [PengaturanController::class, 'storeCustomBackground'])->name('custom-background.store');
+    Route::post('/custom-background/reset', [PengaturanController::class, 'destroyCustomBackground'])->name('custom-background.destroy');
+    Route::post('/custom-background', [PengaturanController::class, 'storeCustomBackground']);
+    Route::delete('/custom-background', [PengaturanController::class, 'destroyCustomBackground']);
 });
+
+Route::post('/skin-inputs', [WelcomeInputController::class, 'store'])->name('welcome-inputs.store');
+Route::delete('/skin-inputs', [WelcomeInputController::class, 'destroy'])->name('welcome-inputs.destroy');

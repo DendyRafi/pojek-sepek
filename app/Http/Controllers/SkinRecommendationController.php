@@ -7,12 +7,15 @@ use App\Models\Criteria;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use InvalidArgumentException;
 
 class SkinRecommendationController extends Controller
 {
     public function hitungRekomendasi(Request $request, Promethee $promethee): JsonResponse
     {
-        $criteria = Criteria::all();
+        $criteria = Criteria::query()
+            ->orderBy('id')
+            ->get(['id', 'name', 'type', 'weight', 'preference_function', 'p', 'q', 's']);
 
         $rules = [
             'alternatives' => ['required', 'array', 'min:2'],
@@ -58,10 +61,17 @@ class SkinRecommendationController extends Controller
             ];
         })->toArray();
 
-        $hasilPeringkat = $promethee->calculate(
-            $validator->validated()['alternatives'],
-            $criteriaData,
-        );
+        try {
+            $hasilPeringkat = $promethee->calculate(
+                $validator->validated()['alternatives'],
+                $criteriaData,
+            );
+        } catch (InvalidArgumentException $exception) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $exception->getMessage(),
+            ], 422);
+        }
 
         return response()->json([
             'status' => 'success',

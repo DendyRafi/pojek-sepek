@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Criteria;
 use Database\Seeders\CriteriaSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -70,5 +71,30 @@ class SkinRecommendationTest extends TestCase
 
         $response->assertUnprocessable()
             ->assertJsonPath('status', 'error');
+    }
+
+    public function test_recommendation_api_returns_json_when_promethee_configuration_is_invalid(): void
+    {
+        Criteria::query()
+            ->where('name', 'Harga (Diamond)')
+            ->update(['preference_function' => 'tidak_didukung']);
+
+        $response = $this->postJson('/api/hitung-rekomendasi', [
+            'alternatives' => [
+                [
+                    'name' => 'Skin Mahal Standar',
+                    'scores' => [1 => 5000, 2 => 2, 3 => 3, 4 => 3, 5 => 3, 6 => 3, 7 => 3, 8 => 1],
+                ],
+                [
+                    'name' => 'Skin Murah Epic',
+                    'scores' => [1 => 1000, 2 => 5, 3 => 6, 4 => 6, 5 => 6, 6 => 7, 7 => 7, 8 => 2],
+                ],
+            ],
+        ]);
+
+        $response
+            ->assertUnprocessable()
+            ->assertJsonPath('status', 'error')
+            ->assertJsonPath('message', 'Unsupported PROMETHEE preference type [tidak_didukung].');
     }
 }

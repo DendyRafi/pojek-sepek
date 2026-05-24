@@ -5,11 +5,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const glitchPalettes = [
         { c1: '#00ffffcc', s1: '#00ffffcc',   c2: '#ff1457cc', s2: '#ff1457cc'   },
-        { c1: '#ff1457cc', s1: '#ff1457cc',     c2: '#eeeeee', s2: '#fafafaee' },
-        { c1: '#eeeeee', s1: '#fafafaee', c2: '#00ffffcc', s2: '#00ffffcc' },
+        { c1: '#ff1457cc', s1: '#ff1457cc',     c2: '#fafafaee', s2: '#fafafaee' },
+        { c1: '#fafafaee', s1: '#fafafaee', c2: '#00ffffcc', s2: '#00ffffcc' },
         { c1: '#00ffffcc', s1: '#00ffffcc',   c2: '#ff1457cc', s2: '#ff1457cc'   },
-        { c1: '#ff1457cc', s1: '#ff1457cc',     c2: '#eeeeee', s2: '#fafafaee' },
-        { c1: '#eeeeee', s1: '#fafafaee', c2: '#00ffffcc', s2: '#00ffffcc' },
+        { c1: '#ff1457cc', s1: '#ff1457cc',     c2: '#fafafaee', s2: '#fafafaee' },
+        { c1: '#fafafaee', s1: '#fafafaee', c2: '#00ffffcc', s2: '#00ffffcc' },
     ];
 
     function randomizeGlitchColors() {

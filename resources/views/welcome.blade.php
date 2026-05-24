@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Syne:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     @vite(['resources/css/welcome.css', 'resources/js/welcome.js'])
 </head>
-<body data-criterias='@json($criterias)' data-saved-inputs='@json($savedWelcomeInputs)'>
+<body style="{{ $customBackgroundStyle }}" data-custom-background-url="{{ $customBackgroundUrl }}" data-criterias='@json($criterias)' data-saved-inputs='@json($savedWelcomeInputs)'>
 
     <header>
         <div class="logo">
@@ -29,9 +29,15 @@
         <div class="app-container">
 
             <div class="page-header">
+<<<<<<< HEAD
                 <div class="label">SkinDecide - Asisten Keputusan Pembelian Skin MLBB</div>
                 <h1>Rekomendasi <span>Skin</span> <span class="glitch-text" data-text="Terbaik">Terbaik</span></h1>
                 <p>Bingung mau beli skin yang mana? Masukkan pilihan skin yang sedang kamu bandingkan, beri penilaian kriteria, <br> dan biarkan sistem kami yang menghitung dan memberikan pilihan terbaik untukmu. <br> (Masukkan Skala 1-7, khusus Kategori masukkan skala 1-6, dan untuk Harga masukkan dalam jumlah Diamond)</p>
+=======
+                <div class="label">SkinDecide - Asisten Rekomendasi Skin</div>
+                <h1>Rekomendasi <span>Skin</span> <span class="glitch-text" data-glitch="Terbaik" aria-label="Terbaik">Terbaik</span></h1>
+                <p>Masukkan nama skin yang ingin dibandingkan beserta penilaian kriteria kamu <br> (Masukkan Skala 1-7, khusus Kategori masukkan skala 1-6, dan untuk Harga masukkan dalam jumlah Diamond)</p>
+>>>>>>> 6d0564288772f75dba1fa00e1757922c04b5add9
             </div>
 
             <form id="spkForm">
@@ -86,8 +92,6 @@
         <div class="footer-brand"><span>SKIN</span>DECIDE</div>
         <div class="footer-copy">&copy; 2026 Promethee Team</div>
     </footer>
-
-    <input type="file" id="input-custom-bg" accept="image/*" style="display: none;">
 
 </body>
 </html>

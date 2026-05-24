@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Syne:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     @vite(['resources/css/pengaturan.css'])
 </head>
-<body>
+<body style="{{ $customBackgroundStyle }}" data-custom-background-url="{{ $customBackgroundUrl }}">
     <header>
         <a href="/" class="logo">
             <div class="logo-dot"></div>

@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Models\Criteria;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class PengaturanTest extends TestCase
@@ -16,6 +18,8 @@ class PengaturanTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        Storage::fake('public_images');
 
         $this->admin = User::factory()->admin()->create();
     }
@@ -108,5 +112,56 @@ class PengaturanTest extends TestCase
         $this->assertDatabaseMissing('criterias', [
             'id' => $criteria->id,
         ]);
+    }
+
+    public function test_admin_can_view_custom_background_page(): void
+    {
+        $response = $this->actingAs($this->admin)->get('/custom-background');
+
+        $response->assertStatus(200);
+        $response->assertSee('Custom <span>Background</span>', false);
+        $response->assertSee('/custom-background/upload', false);
+        $response->assertSee('/custom-background/reset', false);
+        $response->assertDontSee('http://localhost/custom-background', false);
+    }
+
+    public function test_admin_custom_background_upload_is_applied_to_public_visitors(): void
+    {
+        $response = $this->actingAs($this->admin)->post('/custom-background/upload', [
+            'background' => UploadedFile::fake()->image('background.png', 1200, 800)->size(512),
+        ]);
+
+        $response->assertRedirect('/custom-background');
+        Storage::disk('public_images')->assertExists('site-background.png');
+
+        $publicResponse = $this->get('/');
+
+        $publicResponse->assertStatus(200);
+        $publicResponse->assertSee('/images/site-background.png', false);
+        $publicResponse->assertSee('data-custom-background-url=', false);
+    }
+
+    public function test_legacy_custom_background_upload_endpoint_is_still_accepted(): void
+    {
+        $response = $this->actingAs($this->admin)->post('/custom-background', [
+            'background' => UploadedFile::fake()->image('background.png', 1200, 800)->size(512),
+        ]);
+
+        $response->assertRedirect('/custom-background');
+        Storage::disk('public_images')->assertExists('site-background.png');
+    }
+
+    public function test_admin_can_reset_custom_background_to_default(): void
+    {
+        $this->actingAs($this->admin)->post('/custom-background/upload', [
+            'background' => UploadedFile::fake()->image('background.png', 1200, 800)->size(512),
+        ]);
+
+        $response = $this->actingAs($this->admin)->post('/custom-background/reset');
+
+        $response->assertRedirect('/custom-background');
+        Storage::disk('public_images')->assertMissing('site-background.png');
+
+        $this->get('/')->assertDontSee('/images/site-background.png', false);
     }
 }

@@ -11,7 +11,7 @@
     @vite(['resources/css/pengaturan.css', 'resources/js/pengaturan.js'])
 </head>
 
-<body>
+<body style="{{ $customBackgroundStyle }}" data-custom-background-url="{{ $customBackgroundUrl }}">
 
     <header>
         <a href="/" class="logo">
@@ -21,7 +21,7 @@
         <div class="nav-actions">
             <span class="admin-chip">Admin: {{ auth()->user()->name }}</span>
             <a href="{{ route('admin.password.edit') }}" class="nav-link">Reset Password</a>
-            <a href="/custom-background" class="nav-link">
+            <a href="{{ route('custom-background') }}" class="nav-link">
                 Custom Background
             </a>
             <a href="/" class="nav-link">← Halaman Utama</a>
