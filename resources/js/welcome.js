@@ -24,44 +24,10 @@ window.addEventListener('DOMContentLoaded', () => {
     randomizeGlitchColors();
     setInterval(randomizeGlitchColors, 6000);
 
-    // ==========================================
-    // 1. LOGIKA UTAMA CUSTOM BACKGROUND (DIATAS AGAR ANTI-MOGOK)
-    // ==========================================
-    const btnTriggerBg = document.getElementById('btn-trigger-bg');
-    const inputCustomBg = document.getElementById('input-custom-bg');
+    const configuredBackground = document.body?.dataset.customBackgroundUrl;
 
-    // Ambil dan pasang background jika ada di local storage browser
-    const savedBg = localStorage.getItem('skin_decide_custom_bg');
-    if (savedBg) {
-        terapkanBackground(savedBg);
-    }
-
-    if (btnTriggerBg) {
-        btnTriggerBg.addEventListener('click', (e) => {
-            e.preventDefault(); 
-            e.stopPropagation();
-            
-            // Mengambil element langsung saat diklik untuk memastikan DOM siap
-            const inputLokal = document.getElementById('input-custom-bg');
-            if (inputLokal) {
-                inputLokal.click();
-            }
-        });
-    }
-
-    if (inputCustomBg) {
-        inputCustomBg.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const base64Image = e.target.result;
-                    localStorage.setItem('skin_decide_custom_bg', base64Image);
-                    terapkanBackground(base64Image);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+    if (configuredBackground) {
+        terapkanBackground(configuredBackground);
     }
 
     function terapkanBackground(urlGambar) {
@@ -136,6 +102,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         if (savedAlternatives.length > 0) {
             savedAlternatives.forEach((alternative) => tambahBarisSkin(alternative));
+
             return;
         }
 
@@ -166,16 +133,10 @@ window.addEventListener('DOMContentLoaded', () => {
         return ` value="${escapeHtml(value)}"`;
     }
 
-    // =========================================================================
-    // FUNGSI UTAMA: MENGURUTKAN ULANG NOMOR KARTU DI LAYAR (ANTI ANOMALI NOMOR)
-    // =========================================================================
     function urutkanUlangNomorSkin() {
-        const semuaKartuSkin = container.querySelectorAll('.class-skin-item');
-        semuaKartuSkin.forEach((card, index) => {
-            const labelNomor = card.querySelector('.skin-card-number');
-            if (labelNomor) {
-                labelNomor.textContent = `SKIN ${index + 1}`;
-            }
+        const semuaLabelNomor = document.querySelectorAll('.skin-card-number');
+        semuaLabelNomor.forEach((label, index) => {
+            label.textContent = `SKIN ${index + 1}`;
         });
     }
 
@@ -275,7 +236,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         container.appendChild(card);
 
-        // Langsung panggil re-index setelah berhasil masuk DOM agar nomor urut rapi terus
+        // Menyelaraskan nomor urut sesaat setelah kartu baru masuk ke layar
         urutkanUlangNomorSkin();
     }
 
@@ -299,8 +260,9 @@ window.addEventListener('DOMContentLoaded', () => {
         window.setTimeout(() => {
             element.remove();
             
-            // Urutkan ulang nomor di layar sesaat setelah elemen dihapus
+            // Urutkan ulang nomor skin agar teks SKIN X tetap berurutan (1, 2, 3...) setelah ada yang dihapus
             urutkanUlangNomorSkin();
+            
             schedulePersistWelcomeInputs();
         }, 280);
     }
@@ -423,14 +385,26 @@ window.addEventListener('DOMContentLoaded', () => {
         });
 
         try {
-            await persistWelcomeInputs(true);
-
-            const response = await fetch('/api/hitung-rekomendasi', {
+            const recommendationRequest = fetch('/api/hitung-rekomendasi', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
                 body: JSON.stringify({ alternatives: payloadAlternatives }),
             });
-            const hasil = await response.json();
+
+            const [response] = await Promise.all([
+                recommendationRequest,
+                persistWelcomeInputs(true),
+            ]);
+            const hasil = await parseJsonResponse(response);
+
+            if (!response.ok) {
+                shakeAlert(hasil.message || 'Gagal memproses rekomendasi.');
+
+                return;
+            }
 
             if (hasil.status === 'success') {
                 tampilkanTabelHasil(hasil.rekomendasi);
@@ -439,11 +413,21 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error(error);
-            shakeAlert('Gagal menyambung ke server API Laravel.');
+            shakeAlert('Gagal memproses rekomendasi. Periksa koneksi atau server API.');
         } finally {
             btn.classList.remove('loading');
             spinner.style.display = 'none';
             calcIcon.style.display = 'block';
+        }
+    }
+
+    async function parseJsonResponse(response) {
+        try {
+            return await response.json();
+        } catch (error) {
+            console.error(error);
+
+            return {};
         }
     }
 

@@ -29,9 +29,9 @@
         <div class="app-container">
 
             <div class="page-header">
-                <div class="label">SkinDecide - Asisten Rekomendasi Skin</div>
+                <div class="label">SkinDecide - Asisten Keputusan Pembelian Skin MLBB</div>
                 <h1>Rekomendasi <span>Skin</span> <span class="glitch-text" data-text="Terbaik">Terbaik</span></h1>
-                <p>Masukkan nama skin yang ingin dibandingkan beserta penilaian kriteria kamu <br> (Masukkan Skala 1-7, khusus Kategori masukkan skala 1-6, dan untuk Harga masukkan dalam jumlah Diamond)</p>
+                <p>Bingung mau beli skin yang mana? Masukkan pilihan skin yang sedang kamu bandingkan, beri penilaian kriteria, <br> dan biarkan sistem kami yang menghitung dan memberikan pilihan terbaik untukmu. <br> (Masukkan Skala 1-7, khusus Kategori masukkan skala 1-6, dan untuk Harga masukkan dalam jumlah Diamond)</p>
             </div>
 
             <form id="spkForm">
