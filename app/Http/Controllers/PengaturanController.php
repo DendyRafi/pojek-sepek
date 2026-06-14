@@ -11,7 +11,6 @@ use App\Support\DefaultCriteria;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class PengaturanController extends Controller
@@ -46,10 +45,8 @@ class PengaturanController extends Controller
 
     public function reset(): RedirectResponse
     {
-        DB::transaction(function (): void {
-            Criteria::query()->delete();
-            Criteria::insert(DefaultCriteria::recordsWithTimestamps());
-        });
+        Criteria::truncate();
+        Criteria::insert(DefaultCriteria::recordsWithTimestamps());
 
         return redirect()->route('pengaturan.index')->with('success', 'Kriteria berhasil dikembalikan ke pengaturan awal.');
     }

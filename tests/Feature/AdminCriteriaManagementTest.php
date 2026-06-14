@@ -72,6 +72,10 @@ class AdminCriteriaManagementTest extends TestCase
             ->assertSessionHas('success');
 
         $this->assertSame(count(DefaultCriteria::records()), Criteria::count());
+        $this->assertSame(
+            range(1, count(DefaultCriteria::records())),
+            Criteria::query()->orderBy('id')->pluck('id')->all(),
+        );
         $this->assertDatabaseHas('criterias', [
             'name' => 'Harga (Diamond)',
             'type' => 'minimize',
